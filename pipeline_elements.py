@@ -1,9 +1,9 @@
 """
 Useful pipeline elements which might be used for constructing Analysis Pipelines
 """
-from neuropipes.pipeline import _PipelineElement
+from neuropipes.pipeline import PipelineElement
 
-class DummyNode(_PipelineElement):
+class DummyNode(PipelineElement):
     def __init__(self, method=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = ""
@@ -12,7 +12,7 @@ class DummyNode(_PipelineElement):
 
 
 
-class ExtractEvents(_PipelineElement):
+class ExtractEvents(PipelineElement):
     def __init__(self, func=None, method=None, threshold=None, fields=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "ExtractEvents"
@@ -47,7 +47,7 @@ class ExtractEvents(_PipelineElement):
 
         self.output_dim = 'single'
 
-class MergeEvents(_PipelineElement):
+class MergeEvents(PipelineElement):
     def __init__(self, method=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "MergeEvents"
@@ -59,7 +59,7 @@ class MergeEvents(_PipelineElement):
             # self.label = self.label + '("method=intersect")'
 
 
-class RestrictByIntervals(_PipelineElement):
+class RestrictByIntervals(PipelineElement):
     def __init__(self, intervals=None, data=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "RestrictByIntervals()"
@@ -70,7 +70,7 @@ class RestrictByIntervals(_PipelineElement):
         self.output_dim = 'match_input'
 
 
-class FilterSWR(_PipelineElement):
+class FilterSWR(PipelineElement):
     def __init__(self, params=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = 'RippleFilter(params=...)'
@@ -80,7 +80,7 @@ class FilterSWR(_PipelineElement):
         self.output_dim = 'match_input'
 
 
-class DetectSWREvents(_PipelineElement):
+class DetectSWREvents(PipelineElement):
     def __init__(self, detect_thresh=4.0,boundary_thresh=0.0,
                  multiple_tetrodes='average',**kwargs):
         super().__init__(self, **kwargs)
@@ -88,7 +88,7 @@ class DetectSWREvents(_PipelineElement):
         self.output_type = 'iv'
         self.input_types = ['tsdata']
 
-class CalcFiringRate(_PipelineElement):
+class CalcFiringRate(PipelineElement):
     def __init__(self, method=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "CalcFiringRate()"
@@ -96,7 +96,7 @@ class CalcFiringRate(_PipelineElement):
         self.output_type = 'other'
         self.output_dim = 'match_input'
 
-class SmoothSpikes(_PipelineElement):
+class SmoothSpikes(PipelineElement):
     def __init__(self, kernel_width=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "SmoothSpikes()"
@@ -105,7 +105,7 @@ class SmoothSpikes(_PipelineElement):
         self.named_inputs = ["spikes"]
         self.output_dim = 'multi'
 
-class LinearizePosition(_PipelineElement):
+class LinearizePosition(PipelineElement):
     def __init__(self, method=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "LinearizePosition()"
@@ -113,21 +113,21 @@ class LinearizePosition(_PipelineElement):
         self.output_type = 'tsdata'
         self.named_inputs = ["pos"]
 
-class EstimatePlaceFields(_PipelineElement):
+class EstimatePlaceFields(PipelineElement):
     def __init__(self, option=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "EstimatePlaceFields()"
         self.input_types = ['tsdata','tsdata']
         self.output_type = 'tuningcurve'
 
-class Decode(_PipelineElement):
+class Decode(PipelineElement):
     def __init__(self, option=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "Decode()"
         self.input_types = ['tuningcurve','tsdata']
         self.output_type = 'tsdata'
 
-class ScoreReplay(_PipelineElement):
+class ScoreReplay(PipelineElement):
     def __init__(self, option=None, **kwargs):
         super().__init__(self, **kwargs)
         self.label = "ScoreReplay()"

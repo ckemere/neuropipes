@@ -4,8 +4,9 @@ Skeleton neural-data-analysis functions
 
 import numpy as np
 
-class _PipelineElement:
-    def __init__(self, label=None, output_label=None, output_name=None, vis_cluster=None,
+class PipelineElement:
+    def __init__(self, label=None, output_label=None, output_name=None,
+                vis_cluster=None, shape=None,
                 output_type=None, output_dim=None):
         self.num_inputs = 0
         self.named_inputs = []
@@ -22,6 +23,10 @@ class _PipelineElement:
 
         # for visualization
         self.label = None
+        if shape is not None:
+            self.shape = shape
+        else:
+            self.shape = 'box'
         self.output_label = None
         self.vis_cluster = None
         self.sublabel = None
@@ -51,16 +56,16 @@ class _PipelineElement:
 class Analysis:
     def __init__(self, DataDir=None, CacheDataDir=None, Subjects=None, ShowRawData=True):
         if ShowRawData:
-            self.metadata = _PipelineElement('Metadata',output_name='metadata', vis_cluster="Raw Data")
+            self.metadata = PipelineElement('Metadata',output_name='metadata', vis_cluster="Raw Data")
             self.metadata.output_type = 'metadata'
             self.metadata.output_dim = 'single'
-            self.lfp = _PipelineElement('LFP',output_name='lfp', vis_cluster="Raw Data")
+            self.lfp = PipelineElement('LFP',output_name='lfp', vis_cluster="Raw Data")
             self.lfp.output_type = 'tsdata'
             self.lfp.output_dim = 'multi'
-            self.spikes = _PipelineElement('Spikes',output_name='spikes', vis_cluster="Raw Data")
+            self.spikes = PipelineElement('Spikes',output_name='spikes', vis_cluster="Raw Data")
             self.spikes.output_type = 'ts'
             self.spikes.output_dim = 'multi'
-            self.pos = _PipelineElement('Pos',output_name='pos', vis_cluster="Raw Data")
+            self.pos = PipelineElement('Pos',output_name='pos', vis_cluster="Raw Data")
             self.pos.output_type = 'tsdata'
             self.pos.output_dim = 'single'
             self.PipelineNodes = [self.metadata, self.lfp, self.spikes, self.pos]
@@ -82,17 +87,17 @@ class Analysis:
             if (idx > 0):
                 steps[idx] = steps[idx] + (steps[idx-1][0],)
 
-        # Each element in pipeline is a tuple (_PipelineElement, parent1, parent2, ...)
-        # The parent elements are either _PipelineElements which were already
+        # Each element in pipeline is a tuple (PipelineElement, parent1, parent2, ...)
+        # The parent elements are either PipelineElements which were already
         #  added to the Analysis pipeline or strings which match the name of
-        #  a _PipelineElement in the pipeline.
+        #  a PipelineElement in the pipeline.
         for idx,elem in enumerate(steps):
             node = elem[0]
             if node not in self.PipelineNodes:
                 for p in elem[1:] :
                     if isinstance(p,str):
                         node.named_inputs.append(p)
-                    elif isinstance(p,_PipelineElement):
+                    elif isinstance(p,PipelineElement):
                         node.add_parent(p)
                     else:
                         printf('Error - should be either a Pipeline element or string')
