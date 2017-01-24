@@ -271,11 +271,11 @@ def draw_pipeline3(final_nodes, filename='graph', graph_format='png',
     text_font='Arial',monospace_font='Courier',suppress_arrowheads=False,
     final_view=True,
     show_legend=True,
-    legend_order=['Epoch', 'SpikeTrainArray','AnalogSignalArray','BinnedSpikeTrainArray',
-    'TuningCurve','MetaData','Other'],
+    legend_order=['Epochs', 'SpikeTrainArray','AnalogSignalArray','BinnedSpikeTrainArray',
+    'TuningCurve','Metadata','Other'],
     legend_colors={'SpikeTrainArray':'deeppink', 'AnalogSignalArray':'palegreen',
-    'BinnedSpikeTrainArray':'firebrick','Epoch':'cornflowerblue',
-    'TuningCurve':'darkorange', 'MetaData': 'Sienna', 'Other':'DarkGray'}):
+    'BinnedSpikeTrainArray':'firebrick','Epochs':'cornflowerblue',
+    'TuningCurve':'darkorange', 'Metadata': 'Sienna', 'Other':'DarkGray'}):
     gmain = gv.Digraph(format=graph_format)
     gmain.body.extend(['outputorder=edgesfirst','fontname = "{}"'.format(text_font),
         'overlap = false'])
@@ -347,11 +347,11 @@ def draw_pipeline3(final_nodes, filename='graph', graph_format='png',
                 g1.edge(str(id(nparent)),str(id(n)),
                         xlabel=nparent.output_label,
                         color=legend_colors[nparent.output_type],
-                        penwidth=penwidth)
+                        penwidth=penwidth, arrowsize=str(1/float(penwidth)))
             else:
                 g1.edge(str(id(nparent)),str(id(n)),
                        color=legend_colors[nparent.output_type],
-                       penwidth=penwidth)
+                       penwidth=penwidth, arrowsize=str(1/float(penwidth)))
 
 
     if show_legend:

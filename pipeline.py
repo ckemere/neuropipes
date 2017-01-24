@@ -54,19 +54,20 @@ class PipelineElement:
 
 
 class Analysis:
-    def __init__(self, DataDir=None, CacheDataDir=None, Subjects=None, ShowRawData=True):
+    def __init__(self, DataDir=None, CacheDataDir=None, Subjects=None,
+        ShowRawData=True, MvdmNames=False):
         if ShowRawData:
-            self.metadata = PipelineElement('Metadata',output_name='metadata', vis_cluster="Raw Data")
-            self.metadata.output_type = 'metadata'
+            self.metadata = PipelineElement('Metadata',output_name='curated-metadata', vis_cluster="Curated Data")
+            self.metadata.output_type = 'metadata' if MvdmNames else 'Metadata'
             self.metadata.output_dim = 'single'
-            self.lfp = PipelineElement('LFP',output_name='lfp', vis_cluster="Raw Data")
-            self.lfp.output_type = 'tsdata'
+            self.lfp = PipelineElement('LFP',output_name='curated-lfp', vis_cluster="Curated Data")
+            self.lfp.output_type = 'tsdata' if MvdmNames else 'AnalogSignalArray'
             self.lfp.output_dim = 'multi'
-            self.spikes = PipelineElement('Spikes',output_name='spikes', vis_cluster="Raw Data")
-            self.spikes.output_type = 'ts'
+            self.spikes = PipelineElement('Spikes',output_name='curated-spikes', vis_cluster="Curated Data")
+            self.spikes.output_type = 'ts' if MvdmNames else 'SpikeTrainArray'
             self.spikes.output_dim = 'multi'
-            self.pos = PipelineElement('Pos',output_name='pos', vis_cluster="Raw Data")
-            self.pos.output_type = 'tsdata'
+            self.pos = PipelineElement('Pos',output_name='curated-pos', vis_cluster="Curated Data")
+            self.pos.output_type = 'tsdata' if MvdmNames else 'AnalogSignalArray'
             self.pos.output_dim = 'single'
             self.PipelineNodes = [self.metadata, self.lfp, self.spikes, self.pos]
         else:

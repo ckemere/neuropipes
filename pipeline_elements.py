@@ -76,7 +76,7 @@ class FilterSWR(PipelineElement):
         self.label = 'RippleFilter(params=...)'
         self.output_type = 'tsdata'
         self.input_types = ['tsdata']
-        self.named_inputs = ["lfp"]
+        self.named_inputs = ["curated-lfp"]
         self.output_dim = 'match_input'
 
 
@@ -102,7 +102,7 @@ class SmoothSpikes(PipelineElement):
         self.label = "SmoothSpikes()"
         self.input_types = ['ts']
         self.output_type = 'tsdata'
-        self.named_inputs = ["spikes"]
+        self.named_inputs = ["curated-spikes"]
         self.output_dim = 'multi'
 
 class LinearizePosition(PipelineElement):
@@ -111,7 +111,7 @@ class LinearizePosition(PipelineElement):
         self.label = "LinearizePosition()"
         self.input_types = ['tsdata']
         self.output_type = 'tsdata'
-        self.named_inputs = ["pos"]
+        self.named_inputs = ["curated-pos"]
 
 class EstimatePlaceFields(PipelineElement):
     def __init__(self, option=None, **kwargs):
